@@ -23,4 +23,4 @@ alias status=' sudo systemctl status'
 alias enable='sudo  systemctl enable --now '
 alias start=' sudo systemctl start' 
 eval "$(thefuck --alias)" 
-PS1='[\u@\h \W]\$ '
+PS1='\[\e[91m\][\A] \w (\W)\[\e[0m\]\n\$ '
