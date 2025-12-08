@@ -16,6 +16,11 @@ alias fuckup=' sudo pacman -Rns --noconfirm'
 alias lookfor=' sudo pacman -Ss --noconfirm'
 alias need='sudo pacman -Sy --noconfirm'
 alias update=' sudo pacman -Syu --noconfirm'
+alias ysearch=' sudo yay -Ss --noconfirm'
+alias yget='sudo yay -Sy --noconfirm'
 
+alias status=' sudo systemctl status'
+alias enable='sudo  systemctl enable --now '
+alias start=' sudo systemctl start' 
 eval "$(thefuck --alias)" 
 PS1='[\u@\h \W]\$ '
