@@ -49,7 +49,7 @@ if command -v pipx >/dev/null 2>&1; then
   pipx  install mov-cli || true
 
   pipx inject mov-cli youtube
-  pipx ensure path
+  pipx ensurepath
   
 else
   echo "pipx not found. Something went sideways."
