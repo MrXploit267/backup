@@ -57,9 +57,12 @@ fi
 
 echo "Done. System survived."
 
-
-git clone https://aur.archhlinux.org/yay.git 
-cd yay && makepkg -si
+sudo -u "$SUDO_USER" bash <<'EOF'
+cd /tmp
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si --noconfirm
+EOF
 
 AUR_PKGS=(
   brave-bin
