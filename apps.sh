@@ -50,17 +50,9 @@ pipx install thefuck || true
 pipx install mov-cli || true
 EOF
 
-# ---------- mov-cli plugin ----------
-CONFIG_PATH=$(sudo -u "$USER_NAME" mov-cli --config 2>/dev/null || true)
 
-if [[ -n "$CONFIG_PATH" && -f "$CONFIG_PATH" ]]; then
-  echo "Registering YouTube plugin in mov-cli config..."
-  crudini --set "$CONFIG_PATH" mov-cli.plugins youtube mov-cli-youtube
-else
-  echo "mov-cli config not found. Skipping plugin registration."
-fi
 
-# ---------- yay install (NON-ROOT, like an adult) ----------
+# ---------- yay install ----------
 sudo -u "$USER_NAME" bash <<'EOF'
 set -e
 cd /tmp
@@ -79,5 +71,15 @@ AUR_PKGS=(
 )
 
 sudo -u "$USER_NAME" yay -S --noconfirm --needed "${AUR_PKGS[@]}" || true
+
+# ---------- mov-cli plugin ----------
+CONFIG_PATH=$(sudo -u "$USER_NAME" mov-cli --config 2>/dev/null || true)
+
+if [[ -n "$CONFIG_PATH" && -f "$CONFIG_PATH" ]]; then
+  echo "Registering YouTube plugin in mov-cli config..."
+  crudini --set "$CONFIG_PATH" mov-cli.plugins youtube mov-cli-youtube
+else
+  echo "mov-cli config not found. Skipping plugin registration."
+fi
 
 echo "Done. System survived."
