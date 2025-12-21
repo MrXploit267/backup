@@ -46,6 +46,11 @@ pacman -Syu --noconfirm "${PACMAN_PKGS[@]}"
 if command -v pipx >/dev/null 2>&1; then
   echo "Installing pipx apps..."
   pipx install thefuck || true
+  pipx  install mov-cli || true
+
+  pipx inject mov-cli youtube
+  pipx ensure path
+  
 else
   echo "pipx not found. Something went sideways."
 fi
