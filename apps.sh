@@ -37,6 +37,7 @@ PACMAN_PKGS=(
   terminator
   micro 
   git
+  crudini
 )
 
 echo "Installing pacman packages..."
@@ -47,15 +48,20 @@ if command -v pipx >/dev/null 2>&1; then
   echo "Installing pipx apps..."
   pipx install thefuck || true
   pipx  install mov-cli || true
-
-  pipx inject mov-cli youtube
-  pipx ensurepath
-  
+  pipx ensurepath 
 else
   echo "pipx not found. Something went sideways."
 fi
 
-echo "Done. System survived."
+#mov-cli configs and plugins
+CONFIG_PATH=$(sudo -u "$SUDO_USER" mov-cli --config 2>/dev/null || echo "")
+
+if [[ -z "$CONFIG_PATH" || ! -f "$CONFIG_PATH" ]]; then
+  echo "mov-cli config not found. Skipping plugin registration."
+else
+  echo "Adding YouTube plugin to mov-cli config at $CONFIG_PATH..."
+  crudini --set "$CONFIG_PATH" "mov-cli.plugins" youtube '"mov-cli-youtube"'
+fi
 
 sudo -u "$SUDO_USER" bash <<'EOF'
 cd /tmp
@@ -72,5 +78,6 @@ AUR_PKGS=(
   tgpt
 )
 
-yay -S --noconfirm "${AUR_PKGS[@]}"
+yay -S --noconfirm "${AUR_PKGS[@]
 
+echo "Done. System survived."
