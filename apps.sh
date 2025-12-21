@@ -7,6 +7,8 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
+USER_NAME="${SUDO_USER}"
+
 # ---------- Pacman packages ----------
 PACMAN_PKGS=(
   alsa-utils
@@ -35,49 +37,47 @@ PACMAN_PKGS=(
   unzip
   virtualbox virtualbox-host-dkms
   terminator
-  micro 
-  git
   crudini
 )
 
 echo "Installing pacman packages..."
-pacman -Syu --noconfirm "${PACMAN_PKGS[@]}"
+pacman -Syu --noconfirm --needed "${PACMAN_PKGS[@]}"
 
 # ---------- pipx ----------
-if command -v pipx >/dev/null 2>&1; then
-  echo "Installing pipx apps..."
-  pipx install thefuck || true
-  pipx  install mov-cli || true
-  pipx ensurepath 
+sudo -u "$USER_NAME" bash <<'EOF'
+set -e
+pipx ensurepath
+pipx install thefuck || true
+pipx install mov-cli || true
+EOF
+
+# ---------- mov-cli plugin ----------
+CONFIG_PATH=$(sudo -u "$USER_NAME" mov-cli --config 2>/dev/null || true)
+
+if [[ -n "$CONFIG_PATH" && -f "$CONFIG_PATH" ]]; then
+  echo "Registering YouTube plugin in mov-cli config..."
+  crudini --set "$CONFIG_PATH" mov-cli.plugins youtube mov-cli-youtube
 else
-  echo "pipx not found. Something went sideways."
-fi
-
-#mov-cli configs and plugins
-CONFIG_PATH=$(sudo -u "$SUDO_USER" mov-cli --config 2>/dev/null || echo "")
-
-if [[ -z "$CONFIG_PATH" || ! -f "$CONFIG_PATH" ]]; then
   echo "mov-cli config not found. Skipping plugin registration."
-else
-  echo "Adding YouTube plugin to mov-cli config at $CONFIG_PATH..."
-  crudini --set "$CONFIG_PATH" "mov-cli.plugins" youtube '"mov-cli-youtube"'
 fi
 
-sudo -u "$SUDO_USER" bash <<'EOF'
+# ---------- yay install (NON-ROOT, like an adult) ----------
+sudo -u "$USER_NAME" bash <<'EOF'
+set -e
 cd /tmp
+rm -rf yay
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm
 EOF
 
-command -v yay >/dev/null || echo "yay not installed yet"
-
+# ---------- AUR packages ----------
 AUR_PKGS=(
   brave-bin
   spotify
   tgpt
 )
 
-yay -S --noconfirm "${AUR_PKGS[@]
+sudo -u "$USER_NAME" yay -S --noconfirm --needed "${AUR_PKGS[@]}" || true
 
 echo "Done. System survived."
