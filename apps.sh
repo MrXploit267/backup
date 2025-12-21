@@ -16,8 +16,7 @@ PACMAN_PKGS=(
   efibootmgr
   fzf
   git
-  grub
-  htop
+  btop
   inetutils
   intel-media-driver
   intel-ucode
@@ -35,6 +34,9 @@ PACMAN_PKGS=(
   tcpdump
   unzip
   virtualbox virtualbox-host-dkms
+  terminator
+  micro 
+  git
 )
 
 echo "Installing pacman packages..."
@@ -49,3 +51,16 @@ else
 fi
 
 echo "Done. System survived."
+
+
+git clone https://aur.archhlinux.org/yay.git 
+cd yay && makepkg -si
+
+AUR_PKGS=(
+  brave-bin
+  spotify
+  tgpt
+)
+
+yay -S --noconfirm "${AUR_PKGS[@]}"
+
