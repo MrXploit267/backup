@@ -64,6 +64,8 @@ cd yay
 makepkg -si --noconfirm
 EOF
 
+command -v yay >/dev/null || echo "yay not installed yet"
+
 AUR_PKGS=(
   brave-bin
   spotify
