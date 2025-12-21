@@ -37,7 +37,6 @@ PACMAN_PKGS=(
   unzip
   virtualbox virtualbox-host-dkms
   terminator
-  crudini
 )
 
 echo "Installing pacman packages..."
@@ -76,6 +75,7 @@ AUR_PKGS=(
   brave-bin
   spotify
   tgpt
+  crudini
 )
 
 sudo -u "$USER_NAME" yay -S --noconfirm --needed "${AUR_PKGS[@]}" || true
