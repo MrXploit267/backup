@@ -19,7 +19,7 @@ alias update=' sudo pacman -Syu --noconfirm'
 alias ysearch=' sudo yay -Ss --noconfirm'
 alias yget='sudo yay -Sy --noconfirm'
 alias pyenv='sudo python -m venv /tmp/dookie'
-alias activate='source dookie/bin/activate'
+alias activate='source /tmp/dookie/bin/activate'
 
 alias status=' sudo systemctl status'
 alias enable='sudo  systemctl enable --now '
