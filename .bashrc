@@ -18,11 +18,16 @@ alias need='sudo pacman -Sy --noconfirm'
 alias update=' sudo pacman -Syu --noconfirm'
 alias ysearch=' sudo yay -Ss --noconfirm'
 alias yget='sudo yay -Sy --noconfirm'
-alias pyenv='sudo python -m venv /tmp/dookie'
-alias activate='source /tmp/dookie/bin/activate'
-
+alias pwn='ssh -i key hacker@dojo.pwn.college'
+alias build='python -m venv dookie'
+alias activate='source dookie/bin/activate'
+alias delete='rm -rf dookie'
 alias status=' sudo systemctl status'
 alias enable='sudo  systemctl enable --now '
 alias start=' sudo systemctl start' 
-eval "$(thefuck --alias)" 
+eval "$(thefuck --alias)"
+alias network='sudo systemctl start --now NetworkManager' 
 PS1='\[\e[91m\][\A] \w (\W)\[\e[0m\]\n\$ '
+
+# Created by `pipx` on 2025-12-21 05:02:37
+export PATH="$PATH:/home/clumzzy/.local/bin"
