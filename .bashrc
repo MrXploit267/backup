@@ -47,19 +47,29 @@ alias harvester='cd theHarvester && uv run theHarvester'
 alias clone='git clone'
 alias htbd='cd ~/Downloads && sudo openvpn academy-regular.ovpn'
 . "$HOME/.cargo/env"
-#mkdir and cd into it
 
+#wafw00f installation and run
+wafinstall() {
+    python3 -m venv ~/.venvs/wafw00f
+    ~/.venvs/wafw00f/bin/pip install wafw00f
+}
 waf() {
 	python3 -m venv dookie || return 1
 	source dookie/bin/activate || return 1
 	wafw00f "$@"
 }
-wafinstall() {
-    python3 -m venv ~/.venvs/wafw00f
-    ~/.venvs/wafw00f/bin/pip install wafw00f
-}
+#mkdir and cd into it
 mkcd()
  { mkdir -p "$1" && cd "$1";
 
  }
+
+#nikto
+niktoinstall() {
+	sudo pacman -Sy perl perl-json
+	git clone https://github.com/sullo/nikto
+}
+alias nikto='cd ~/nikto/program && perl nikto.pl -h '
+
+
 
