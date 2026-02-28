@@ -54,6 +54,10 @@ waf() {
 	source dookie/bin/activate || return 1
 	wafw00f "$@"
 }
+wafinstall() {
+    python3 -m venv ~/.venvs/wafw00f
+    ~/.venvs/wafw00f/bin/pip install wafw00f
+}
 mkcd()
  { mkdir -p "$1" && cd "$1";
 
