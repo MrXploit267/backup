@@ -71,5 +71,96 @@ niktoinstall() {
 }
 alias nikto='cd ~/nikto/program && perl nikto.pl -h '
 
+cminstall() {
+	python3 -m venv dookie || return 1
+	source dookie/bin/activate || return 1
+	git clone https://github.com/Tuhinshubhra/CMSeeK
+	cd CMSeeK
+	pip install -r requirements.txt
+	
+}
+
+cmseek() {
+	python3 -m venv dookie || return 1
+	source dookie/bin/activate || return 1
+	cd ~/CMSeeK
+	python3 cmseek.py
+}
+
+#scrapy install and guide
+scrinstall() {
+	python3 -m venv dookie || return 1
+	source dookie/bin/activate || return 1
+	pip3 install scrapy 
+}
+
+scrapy () {
+	python3 -m venv dookie || return 1	
+	source dookie/bin/activate || return 1
+	scrapy
+}
+
+
+#Reconspider
+#uses scrapy
+recsinstall() {
+	sudo wget -O ReconSpider.zip https://academy.hackthebox.com/storage/modules/144/ReconSpider.v1.2.zip || return 1
+	sudo unzip ReconSpider.zip || return 1 
+}
+
+rspider() {
+	python3 -m venv dookie 
+	source dookie/bin/activate
+	python3 ReconSpider.py
+	
+}
+
+#automated recon with finalrecon
+freconinstall() {
+	python3 -m env dookie || return 1
+	souce dookie/bin/activate return 1
+	git clone https://github.com/thewhiteh4t/FinalRecon.git
+	cd FinalRecon
+	pip3 install -r requirements.txt
+	chmod 700 ./finalrecon.py
+}
+
+frecon() {
+	python3 -m venv dookie || return 1
+	source dookie/bin/activate || return 1
+	cd FinalRecon
+	./finalrecon.py
+}
+
+#fuzzing tools
+fuzzing() {
+    set -euo pipefail
+	
+    sudo pacman -Syu --noconfirm --needed go git base-devel
+
+    if ! command -v paru >/dev/null; then
+        git clone https://aur.archlinux.org/paru.git
+        cd paru
+        makepkg -si --noconfirm || return 1
+        cd ..
+    fi
+
+    paru -S --noconfirm --needed python-pipx
+    pipx ensurepath
+    sudo pipx ensurepath --global 
+    
+	#ffuff and gobuster
+    command -v ffuf >/dev/null || go install github.com/ffuf/ffuf/v2@latest
+    command -v gobuster >/dev/null || go install github.com/OJ/gobuster/v3@latest
+
+    #forexbuster
+    curl -sL https://raw.githubusercontent.com/epi052/feroxbuster/main/install-nix.sh | sudo bash -s $HOME/.local/bin
+
+    #wfuzz/wenum
+    pipx install git+https://github.com/WebFuzzForge/wenum
+    pipx runpip wenum install setuptools
+     
+}
+
 
 
