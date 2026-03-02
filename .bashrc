@@ -88,7 +88,7 @@ cmseek() {
 	python3 -m venv dookie || return 1
 	source dookie/bin/activate || return 1
 	cd ~/CMSeeK
-	python3 cmseek.py
+	python3 cmseek.py 
 }
 
 #scrapy install and guide
@@ -115,8 +115,7 @@ recsinstall() {
 rspider() {
 	python3 -m venv dookie 
 	source dookie/bin/activate
-	python3 ReconSpider.py
-	
+	python3 ReconSpider.py	"$@
 }
 
 #automated recon with finalrecon
@@ -133,7 +132,7 @@ frecon() {
 	python3 -m venv dookie || return 1
 	source dookie/bin/activate || return 1
 	cd FinalRecon
-	./finalrecon.py
+	./finalrecon.py "$@"
 }
 
 #fuzzing tools
@@ -164,6 +163,23 @@ fuzzing() {
     pipx install git+https://github.com/WebFuzzForge/wenum
     pipx runpip wenum install setuptools
      
+}
+#web api fuzzer
+
+wapifinstall() {
+	python3 -m venv dookie
+	source dookie/bin/activate
+	git clone https://github.com/PandaSt0rm/webfuzz_api.git
+	cd webfuzz_api
+	pip3 install -r requirements.txt
+	deactivate
+}
+
+wapif() {
+	python3 -m venv dookie || return 1
+	source dookie/bin/activate || return 1
+	cd ~/webfuzz_api || return 1
+	python3 api_fuzzer.py "$@"
 }
 
 
