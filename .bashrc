@@ -44,10 +44,14 @@ alias ..='cd ../..'
 alias ...='cd ../../..'
 alias ....='cd ../../../..'
 alias harvester='cd theHarvester && uv run theHarvester'
-alias clone='git clone'
 alias htbd='cd ~/Downloads && sudo openvpn academy-regular.ovpn'
 . "$HOME/.cargo/env"
 
+#git clone 
+clone() {
+    git clone "$1" || return 1
+    cd "$(basename "$1" .git)" || return 1
+}
 #wafw00f installation and run
 wafinstall() {
     python3 -m venv ~/.venvs/wafw00f
