@@ -182,5 +182,35 @@ wapif() {
 	python3 api_fuzzer.py "$@"
 }
 
+#XSS discovery thru XSS strike
+
+strikeinstall() {
+	set -eou pipefail
+	python3 -m venv venv || return 1
+	source venv/bin/activate || return 1
+	git clone https://github.com/s0md3v/XSStrike.git
+	cd XSStrike
+	pip3 install -r requirements.txt
+	python xsstrike.py
+	deactivate
+}
+
+strike() {
+	set -eou pipefail
+
+	python3 -m venv dookie || return 1
+	source dookie/bin/activate || return 1
+	cd ~/XSStrike
+	python3 xsstrike.py -u "$@" 
+} 
+
+#arjun install
+
+arjuninstall() {
+	set -euo pipefail
+	pipx install  arjun || return 
+}
+
+
 
 
