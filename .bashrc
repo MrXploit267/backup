@@ -42,24 +42,35 @@ alias asm='bash $HOME/bash/asm.sh'
 alias makeScript='bash $HOME/bash/combo.sh'
 
 
-# ─── System navigation helpers ────────────────────────────────────────────
+# ─── File helpers && System navigation helpers ────────────────────────────────────────────
+#auto cd
 shopt -s autocd
 
 cd() {
     builtin cd "$@"
 }
 
+#make and cd into 
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
 
+#make dir for htb and cd into 
 htbdir() {
     cd $HOME/htb && mkdir -p "$1" && cd "$1"
 }
 
+#direct clone and cd 
 clone() {
     git clone "$1" || return 1
     cd "$(basename "$1" .git)" || return 1
+}
+
+#make file
+make() {
+    read -p "filename: " fileName
+    touch "$fileName" && chmod 700 "$fileName"
+    micro "$fileName"
 }
 
 
@@ -131,13 +142,6 @@ webcon() {
     esac
 }
 
-
-# ─── File helpers ──────────────────────────────────────────────────────────
-make() {
-    read -p "filename: " fileName
-    touch "$fileName" && chmod 700 "$fileName"
-    micro "$fileName"
-}
 
 
 # ─── Python venv junk ──────────────────────────────────────────────────────
